@@ -11,6 +11,8 @@ export class UIChanger {
             positionClass = "cell-green";
         if (state == "misplacedLetter")
             positionClass = "cell-orange";
+        if (state == "wrongLetter")
+            positionClass = "cell-grey";
         Array.from(document.getElementById(`row_${turn}`).children)[position].classList.add(positionClass);
     }
     changeBackgroundKey(code) {

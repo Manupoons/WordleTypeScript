@@ -13,6 +13,6 @@ Array.from(document.getElementsByClassName("key")).forEach(element => element.ad
     game.newKeyPressed((<HTMLButtonElement>e.target).value);
 }));
 
-document.addEventListener("keydown", (e)=>{
+document.addEventListener("keydown", (e) =>{
     game.newKeyPressed(e.code);
 });
