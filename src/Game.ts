@@ -1,6 +1,5 @@
 import {MAX_WORD_SIZE, MAX_ATTEMPTS} from "./env.js";
 import {UIChanger} from "./UIChanger.js";
-//import { LetterChecker } from "./LetterChecker.js";
 
 export class Game {
 
@@ -9,7 +8,6 @@ export class Game {
     #turn: number;
     #actualPosition: number;
     #validLetterCodes: string[];
-    //#letterChecker: LetterChecker;
     #userInterface: UIChanger;
 
     constructor(pickedWord: string){
@@ -18,7 +16,6 @@ export class Game {
         this.#turn = 1;
         this.#actualPosition = 0;
         this.#validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
-        //this.#letterChecker = new LetterChecker();
         this.#userInterface = new UIChanger();
     }
 
@@ -45,7 +42,6 @@ export class Game {
     set turn(num){
         this.#turn = num;
     }
-
     
     get actualPosition(){
         return this.#actualPosition;
@@ -54,7 +50,6 @@ export class Game {
     set actualPosition(num){
         this.#actualPosition = num;
     }
-
     
     get validLetterCodes() {
         return this.#validLetterCodes
@@ -64,7 +59,6 @@ export class Game {
         this.#validLetterCodes = letters;
     }
     
-
     get userInterface() {
         return this.#userInterface;
     }
@@ -72,12 +66,10 @@ export class Game {
     set userInterface(i) {
         this.#userInterface = i;
     }
-
     
     isValidLetter(code: string): boolean{ 
         return this.#validLetterCodes.includes(code) && this.#actualPosition < MAX_WORD_SIZE;
     }
-    
 
     isEnterKey(code: string): boolean{
         return code == "Enter";
@@ -86,7 +78,6 @@ export class Game {
     isBackspaceKey(code: string): boolean{
         return code == "Backspace";
     }
-
     
     transformCodeToLetter(code: string): string{
         let letter: string = "";
@@ -94,7 +85,6 @@ export class Game {
         else letter = code.split("y")[1];
         return letter;
     }
-    
 
     newLetter(code: string): void{
         let letter: string = this.transformCodeToLetter(code);
@@ -102,22 +92,69 @@ export class Game {
         this.#actualPosition = this.#actualPosition + 1;
         this.#actualWord += letter;
     }
-    
 
-    checkWordIsRight(): void{
+    checkGameIsOver(): void{
         if (this.#actualWord == this.#pickedWord){
-            location.assign("/winner");
+            location.assign("/winner")
+        } 
+        else if (this.turn == MAX_ATTEMPTS && this.#actualWord != this.#pickedWord){
+            location.assign("/loser");
         }
     }
 
+    checkLetterStatus = (): void =>{
+        let actualLetter: string = "";
+        let pattern: RegExp;
+        let numberOfCoincidencesPickedWord: number = 0;
+        let numberOfCoincidencesActualWord: number = 0;
+        let differenceOfCoincidences: number = 0;
+        let isMisplacedLetter: boolean = true;
+
+        for (let i = 0; i < MAX_WORD_SIZE; i++) {
+            isMisplacedLetter = true;
+            actualLetter = this.#actualWord[i];
+            pattern = new RegExp(actualLetter, "g");
+            numberOfCoincidencesPickedWord = (this.#pickedWord.match(pattern) || []).length;
+            numberOfCoincidencesActualWord = (this.#actualWord.match(pattern) || []).length;
+            differenceOfCoincidences = Math.abs(numberOfCoincidencesActualWord - numberOfCoincidencesPickedWord);
+            
+            if (this.#pickedWord[i] == this.#actualWord[i]){
+                this.#userInterface.changeBackgroundPosition(this.#turn, i, "rightLetter");
+            }
+            
+            if (differenceOfCoincidences == 1){
+                for (let j = 0; j < MAX_WORD_SIZE; j++){
+                    if(this.#pickedWord[j] == actualLetter) {
+                        isMisplacedLetter = false;
+                        break;
+                    }
+                }
+            }
+
+            if (differenceOfCoincidences == 0 && this.#pickedWord[i] == this.#actualWord[i]){
+                isMisplacedLetter = false;
+            }
+
+            if (numberOfCoincidencesPickedWord > 0 && isMisplacedLetter) { 
+                this.#userInterface.changeBackgroundPosition(this.#turn, i, "misplacedLetter");
+            }
+            
+            if (numberOfCoincidencesPickedWord == 0){
+                this.#userInterface.changeBackgroundPosition(this.#turn, i, "wrongLetter");
+            }
+        }
+    }
+
+    /*
     checkRightLetters = (): void =>{
         for (let i = 0; i < MAX_WORD_SIZE; i++){
+            
             if (this.#pickedWord[i] == this.#actualWord[i]){
                 this.#userInterface.changeBackgroundPosition(this.#turn, i, "rightLetter");
             }
         }
     }
-
+    
     checkMisplacedLetters = (): void => {
         let actualLetter: string = "";
         let pattern: RegExp;
@@ -166,40 +203,31 @@ export class Game {
             }
         }
     }
-
-    updateAfterANewWord = (): void =>{
-        this.checkRightLetters();
-        this.checkMisplacedLetters();
-        this.checkWrongLetters();
-        this.#turn = this.#turn + 1;
-        this.#actualPosition = 0;
-        this.#actualWord = "";
-    }
-
-    checkGameIsOver(): void{
-        if (this.turn == MAX_ATTEMPTS){
-            location.assign("/loser");
-        }
-    }
+    */
 
     enterPressed(): void{
         if (this.#actualWord.length == MAX_WORD_SIZE){
-            this.checkWordIsRight();
             this.checkGameIsOver();
-            this.updateAfterANewWord();
+            this.checkLetterStatus();
+            //this.checkRightLetters();
+            //this.checkMisplacedLetters();
+            //this.checkWrongLetters();
+            this.turn = this.turn + 1;
+            this.actualPosition = 0;
+            this.#actualWord = "";
         }
     }
 
     backspacePressed(): void{
         if (this.#actualPosition > 0) {
             this.#actualPosition -= 1;
-            this.#actualWord = this.#actualWord.slice(0, this.#actualPosition);
-            this.#userInterface.deleteLetter(this.#turn, this.#actualPosition);
+            this.#actualWord = this.#actualWord.slice(0, this.actualPosition);
+            this.#userInterface.deleteLetter(this.#turn, this.actualPosition);
         }
     }
-
+    
     newKeyPressed(code: string): void{ 
-        if (this.#actualPosition <= MAX_WORD_SIZE) {
+        if (this.#actualWord.length < MAX_WORD_SIZE) {
             if (this.isValidLetter(code)) this.newLetter(code);
             this.#userInterface.changeBackgroundKey(code);
         }
