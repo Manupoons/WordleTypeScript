@@ -9,15 +9,14 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _LetterChecker_game, _LetterChecker_userInterface, _LetterChecker_actualPosition, _LetterChecker_validLetterCodes;
+var _LetterChecker_actualPosition, _LetterChecker_validLetterCodes, _LetterChecker_game, _LetterChecker_userInterface;
 import { MAX_WORD_SIZE } from "./env.js";
-import { UIChanger } from "./UIChanger.js";
 export class LetterChecker {
-    constructor(game) {
-        _LetterChecker_game.set(this, void 0);
-        _LetterChecker_userInterface.set(this, void 0);
+    constructor(game, userInterface) {
         _LetterChecker_actualPosition.set(this, void 0);
         _LetterChecker_validLetterCodes.set(this, void 0);
+        _LetterChecker_game.set(this, void 0);
+        _LetterChecker_userInterface.set(this, void 0);
         this.checkLetterStatus = () => {
             let actualLetter = "";
             let pattern;
@@ -57,10 +56,10 @@ export class LetterChecker {
                 }
             }
         };
-        __classPrivateFieldSet(this, _LetterChecker_game, game, "f");
         __classPrivateFieldSet(this, _LetterChecker_actualPosition, 0, "f");
         __classPrivateFieldSet(this, _LetterChecker_validLetterCodes, ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"], "f");
-        __classPrivateFieldSet(this, _LetterChecker_userInterface, new UIChanger(), "f");
+        __classPrivateFieldSet(this, _LetterChecker_game, game, "f");
+        __classPrivateFieldSet(this, _LetterChecker_userInterface, userInterface, "f");
     }
     get actualPosition() {
         return __classPrivateFieldGet(this, _LetterChecker_actualPosition, "f");
@@ -99,8 +98,8 @@ export class LetterChecker {
     }
     newLetter(code) {
         let letter = this.transformCodeToLetter(code);
-        __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").setNewLetter(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, this.actualPosition, letter);
-        this.actualPosition = this.actualPosition + 1;
+        __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").setNewLetter(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, __classPrivateFieldGet(this, _LetterChecker_actualPosition, "f"), letter);
+        __classPrivateFieldSet(this, _LetterChecker_actualPosition, __classPrivateFieldGet(this, _LetterChecker_actualPosition, "f") + 1, "f");
         __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord += letter;
     }
     enterPressed() {
@@ -108,15 +107,15 @@ export class LetterChecker {
             __classPrivateFieldGet(this, _LetterChecker_game, "f").checkGameIsOver();
             this.checkLetterStatus();
             __classPrivateFieldGet(this, _LetterChecker_game, "f").turn = __classPrivateFieldGet(this, _LetterChecker_game, "f").turn + 1;
-            this.actualPosition = 0;
+            __classPrivateFieldSet(this, _LetterChecker_actualPosition, 0, "f");
             __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord = "";
         }
     }
     backspacePressed() {
-        if (this.actualPosition > 0) {
-            this.actualPosition -= 1;
-            __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord = __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord.slice(0, this.actualPosition);
-            __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").deleteLetter(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, this.actualPosition);
+        if (__classPrivateFieldGet(this, _LetterChecker_actualPosition, "f") > 0) {
+            __classPrivateFieldSet(this, _LetterChecker_actualPosition, __classPrivateFieldGet(this, _LetterChecker_actualPosition, "f") - 1, "f");
+            __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord = __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord.slice(0, __classPrivateFieldGet(this, _LetterChecker_actualPosition, "f"));
+            __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").deleteLetter(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, __classPrivateFieldGet(this, _LetterChecker_actualPosition, "f"));
         }
     }
     newKeyPressed(code) {
@@ -131,4 +130,4 @@ export class LetterChecker {
             this.backspacePressed();
     }
 }
-_LetterChecker_game = new WeakMap(), _LetterChecker_userInterface = new WeakMap(), _LetterChecker_actualPosition = new WeakMap(), _LetterChecker_validLetterCodes = new WeakMap();
+_LetterChecker_actualPosition = new WeakMap(), _LetterChecker_validLetterCodes = new WeakMap(), _LetterChecker_game = new WeakMap(), _LetterChecker_userInterface = new WeakMap();

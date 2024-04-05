@@ -3,16 +3,16 @@ import { Game } from "./Game.js";
 import {UIChanger} from "./UIChanger.js";
 
 export class LetterChecker{
-    #game: Game;
-    #userInterface: UIChanger;
     #actualPosition: number;
     #validLetterCodes: string[];
+    #game: Game;
+    #userInterface: UIChanger;
 
-    constructor(game: Game){
-        this.#game = game;
+    constructor(game: Game, userInterface: UIChanger){
         this.#actualPosition = 0;
         this.#validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
-        this.#userInterface = new UIChanger();
+        this.#game = game;
+        this.#userInterface = userInterface;
     }
     
     get actualPosition(){
@@ -60,8 +60,8 @@ export class LetterChecker{
 
     newLetter(code: string): void{
         let letter: string = this.transformCodeToLetter(code);
-        this.#userInterface.setNewLetter(this.#game.turn, this.actualPosition, letter);
-        this.actualPosition = this.actualPosition + 1;
+        this.#userInterface.setNewLetter(this.#game.turn, this.#actualPosition, letter);
+        this.#actualPosition = this.#actualPosition + 1;
         this.#game.actualWord += letter;
     }
 
@@ -116,16 +116,16 @@ export class LetterChecker{
             this.#game.checkGameIsOver();
             this.checkLetterStatus();
             this.#game.turn = this.#game.turn + 1;
-            this.actualPosition = 0;
+            this.#actualPosition = 0;
             this.#game.actualWord = "";
         }
     }
 
     backspacePressed(): void{
-        if (this.actualPosition > 0) {
-            this.actualPosition -= 1;
-            this.#game.actualWord = this.#game.actualWord.slice(0, this.actualPosition);
-            this.#userInterface.deleteLetter(this.#game.turn, this.actualPosition);
+        if (this.#actualPosition > 0) {
+            this.#actualPosition -= 1;
+            this.#game.actualWord = this.#game.actualWord.slice(0, this.#actualPosition);
+            this.#userInterface.deleteLetter(this.#game.turn, this.#actualPosition);
         }
     }
     
