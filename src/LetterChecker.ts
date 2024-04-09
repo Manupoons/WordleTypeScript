@@ -65,6 +65,7 @@ export class LetterChecker{
         this.#game.actualWord += letter;
     }
 
+    
     checkLetterStatus = (): void =>{
         let actualLetter: string = "";
         let pattern: RegExp;
