@@ -94,5 +94,4 @@ export class Letter{
         if (this.isEnterKey(code)) this.enterPressed();
         if (this.isBackspaceKey(code)) this.backspacePressed();
     }
-
 }
