@@ -11,6 +11,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _Letter_actualPosition, _Letter_letterChecker, _Letter_validLetterCodes, _Letter_userInterface, _Letter_game;
 import { MAX_WORD_SIZE } from "./env.js";
+const validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
 export class Letter {
     constructor(letterChecker, userInterface, game) {
         _Letter_actualPosition.set(this, void 0);
@@ -19,7 +20,7 @@ export class Letter {
         _Letter_userInterface.set(this, void 0);
         _Letter_game.set(this, void 0);
         __classPrivateFieldSet(this, _Letter_actualPosition, 0, "f");
-        __classPrivateFieldSet(this, _Letter_validLetterCodes, ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"], "f");
+        __classPrivateFieldSet(this, _Letter_validLetterCodes, validLetterCodes, "f");
         __classPrivateFieldSet(this, _Letter_letterChecker, letterChecker, "f");
         __classPrivateFieldSet(this, _Letter_userInterface, userInterface, "f");
         __classPrivateFieldSet(this, _Letter_game, game, "f");

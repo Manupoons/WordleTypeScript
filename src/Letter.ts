@@ -3,6 +3,8 @@ import { LetterChecker } from "./LetterChecker.js";
 import { Game } from "./Game.js";
 import { UIChanger } from "./UIChanger.js";
 
+const validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"]
+
 export class Letter{
 
     #actualPosition: number;
@@ -13,7 +15,7 @@ export class Letter{
 
     constructor(letterChecker: LetterChecker, userInterface: UIChanger, game: Game){
         this.#actualPosition = 0;
-        this.#validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
+        this.#validLetterCodes = validLetterCodes;
         this.#letterChecker = letterChecker;
         this.#userInterface = userInterface;
         this.#game = game;

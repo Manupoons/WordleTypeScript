@@ -8,7 +8,6 @@ const wordsCollection: Word = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MON
 const pickedWord: string = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
-
 const userInterface: UIChanger = new UIChanger();
 const game: Game = new Game(pickedWord);
 const letterChecker: LetterChecker = new LetterChecker(game, userInterface);
