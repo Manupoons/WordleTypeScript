@@ -65,7 +65,6 @@ export class LetterChecker{
         this.#game.actualWord += letter;
     }
 
-    
     checkLetterStatus = (): void =>{
         let actualLetter: string = "";
         let pattern: RegExp;
@@ -73,11 +72,9 @@ export class LetterChecker{
         let numberOfCoincidencesActualWord: number = 0;
         let differenceOfCoincidences: number = 0;
         let isMisplacedLetter: boolean = true;
-        let isLetterChecked: boolean = false;
 
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
             isMisplacedLetter = true;
-            isLetterChecked = false;
             actualLetter = this.#game.actualWord[i];
             pattern = new RegExp(actualLetter, "g");
             numberOfCoincidencesPickedWord = (this.#game.pickedWord.match(pattern) || []).length;
@@ -85,8 +82,7 @@ export class LetterChecker{
             differenceOfCoincidences = Math.abs(numberOfCoincidencesActualWord - numberOfCoincidencesPickedWord);
 
             if (this.#game.pickedWord[i] == this.#game.actualWord[i]){
-                this.#userInterface.changeBackgroundPosition(this.#game.turn, i, "rightLetter");
-                isLetterChecked = true;
+                this.#userInterface.changeBackgroundPosition(this.#game.turn, i, "cell-green");
             }
             
             if (differenceOfCoincidences == 1){
@@ -102,12 +98,13 @@ export class LetterChecker{
                 isMisplacedLetter = false;
             }
 
-            if (numberOfCoincidencesPickedWord > 0 && isMisplacedLetter && !isLetterChecked) { 
-                this.#userInterface.changeBackgroundPosition(this.#game.turn, i, "misplacedLetter");
+            if (numberOfCoincidencesPickedWord > 0 && isMisplacedLetter) { 
+                
+                this.#userInterface.changeBackgroundPosition(this.#game.turn, i, "cell-orange");
             }
 
             if (numberOfCoincidencesPickedWord == 0){
-                this.#userInterface.changeBackgroundPosition(this.#game.turn, i, "wrongLetter");
+                this.#userInterface.changeBackgroundPosition(this.#game.turn, i, "cell-grey");
             }
         }
     }
@@ -132,7 +129,9 @@ export class LetterChecker{
     
     newKeyPressed(code: string): void{ 
         if (this.#game.actualWord.length < MAX_WORD_SIZE) {
-            if (this.isValidLetter(code)) this.newLetter(code);
+            if (this.isValidLetter(code)){ 
+                this.newLetter(code);
+            }
             this.#userInterface.changeBackgroundKey(code);
         }
         if (this.isEnterKey(code)) this.enterPressed();

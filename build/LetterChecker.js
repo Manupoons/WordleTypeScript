@@ -24,18 +24,18 @@ export class LetterChecker {
             let numberOfCoincidencesActualWord = 0;
             let differenceOfCoincidences = 0;
             let isMisplacedLetter = true;
-            let isLetterChecked = false;
+            //let isLetterChecked: boolean = false;
             for (let i = 0; i < MAX_WORD_SIZE; i++) {
                 isMisplacedLetter = true;
-                isLetterChecked = false;
+                //isLetterChecked = false;
                 actualLetter = __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord[i];
                 pattern = new RegExp(actualLetter, "g");
                 numberOfCoincidencesPickedWord = (__classPrivateFieldGet(this, _LetterChecker_game, "f").pickedWord.match(pattern) || []).length;
                 numberOfCoincidencesActualWord = (__classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord.match(pattern) || []).length;
                 differenceOfCoincidences = Math.abs(numberOfCoincidencesActualWord - numberOfCoincidencesPickedWord);
                 if (__classPrivateFieldGet(this, _LetterChecker_game, "f").pickedWord[i] == __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord[i]) {
-                    __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").changeBackgroundPosition(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, i, "rightLetter");
-                    isLetterChecked = true;
+                    __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").changeBackgroundPosition(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, i, "cell-green");
+                    //isLetterChecked = true;
                 }
                 if (differenceOfCoincidences == 1) {
                     for (let j = 0; j < MAX_WORD_SIZE; j++) {
@@ -48,11 +48,11 @@ export class LetterChecker {
                 if (differenceOfCoincidences == 0 && __classPrivateFieldGet(this, _LetterChecker_game, "f").pickedWord[i] == __classPrivateFieldGet(this, _LetterChecker_game, "f").actualWord[i]) {
                     isMisplacedLetter = false;
                 }
-                if (numberOfCoincidencesPickedWord > 0 && isMisplacedLetter && !isLetterChecked) {
-                    __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").changeBackgroundPosition(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, i, "misplacedLetter");
+                if (numberOfCoincidencesPickedWord > 0 && isMisplacedLetter /*&& !isLetterChecked*/) {
+                    __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").changeBackgroundPosition(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, i, "cell-orange");
                 }
                 if (numberOfCoincidencesPickedWord == 0) {
-                    __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").changeBackgroundPosition(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, i, "wrongLetter");
+                    __classPrivateFieldGet(this, _LetterChecker_userInterface, "f").changeBackgroundPosition(__classPrivateFieldGet(this, _LetterChecker_game, "f").turn, i, "cell-grey");
                 }
             }
         };
