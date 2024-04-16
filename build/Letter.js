@@ -59,24 +59,27 @@ export class Letter {
         return letter;
     }
     newLetterColor(letter) {
-        __classPrivateFieldGet(this, _Letter_userInterface, "f").setNewLetter(__classPrivateFieldGet(this, _Letter_game, "f").turn, this.actualPosition, letter);
+        __classPrivateFieldGet(this, _Letter_userInterface, "f").setNewLetterInUI(__classPrivateFieldGet(this, _Letter_game, "f").turn, this.actualPosition, letter);
         this.actualPosition = this.actualPosition + 1;
         __classPrivateFieldGet(this, _Letter_game, "f").actualWord += letter;
-    }
-    enterPressed() {
-        if (__classPrivateFieldGet(this, _Letter_game, "f").actualWord.length == MAX_WORD_SIZE) {
-            __classPrivateFieldGet(this, _Letter_game, "f").checkGameIsOver();
-            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkLetterStatus();
-            __classPrivateFieldGet(this, _Letter_game, "f").turn = __classPrivateFieldGet(this, _Letter_game, "f").turn + 1;
-            this.actualPosition = 0;
-            __classPrivateFieldGet(this, _Letter_game, "f").actualWord = "";
-        }
     }
     backspacePressed() {
         if (this.actualPosition > 0) {
             this.actualPosition -= 1;
             __classPrivateFieldGet(this, _Letter_game, "f").actualWord = __classPrivateFieldGet(this, _Letter_game, "f").actualWord.slice(0, this.actualPosition);
-            __classPrivateFieldGet(this, _Letter_userInterface, "f").deleteLetter(__classPrivateFieldGet(this, _Letter_game, "f").turn, this.actualPosition);
+            __classPrivateFieldGet(this, _Letter_userInterface, "f").deleteLetterInUI(__classPrivateFieldGet(this, _Letter_game, "f").turn, this.actualPosition);
+        }
+    }
+    enterPressed() {
+        if (__classPrivateFieldGet(this, _Letter_game, "f").actualWord.length == MAX_WORD_SIZE) {
+            __classPrivateFieldGet(this, _Letter_game, "f").checkGameIsOver();
+            //this.#letterChecker.checkLetterStatus();
+            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkMisplacedLetters();
+            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkLettersRight();
+            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkWrongLetters();
+            __classPrivateFieldGet(this, _Letter_game, "f").turn = __classPrivateFieldGet(this, _Letter_game, "f").turn + 1;
+            this.actualPosition = 0;
+            __classPrivateFieldGet(this, _Letter_game, "f").actualWord = "";
         }
     }
     newKeyPressed(code) {
@@ -87,10 +90,12 @@ export class Letter {
             }
             __classPrivateFieldGet(this, _Letter_userInterface, "f").changeBackgroundKey(code);
         }
-        if (this.isEnterKey(code))
+        if (this.isEnterKey(code)) {
             this.enterPressed();
-        if (this.isBackspaceKey(code))
+        }
+        if (this.isBackspaceKey(code)) {
             this.backspacePressed();
+        }
     }
 }
 _Letter_actualPosition = new WeakMap(), _Letter_letterChecker = new WeakMap(), _Letter_validLetterCodes = new WeakMap(), _Letter_userInterface = new WeakMap(), _Letter_game = new WeakMap();
