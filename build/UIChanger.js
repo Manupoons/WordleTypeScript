@@ -1,8 +1,8 @@
 export class UIChanger {
-    setNewLetter(turn, position, letter) {
+    setNewLetterInUI(turn, position, letter) {
         Array.from(document.getElementById(`row_${turn}`).children)[position].textContent = letter;
     }
-    deleteLetter(turn, position) {
+    deleteLetterInUI(turn, position) {
         Array.from(document.getElementById(`row_${turn}`).children)[position].textContent = "";
     }
     changeBackgroundPosition(turn, position, state) {

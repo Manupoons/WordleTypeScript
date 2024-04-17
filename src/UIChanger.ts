@@ -1,10 +1,10 @@
 export class UIChanger {
     
-    setNewLetter(turn: number, position: number, letter: string) {
+    setNewLetterInUI(turn: number, position: number, letter: string) {
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = letter;
     }
 
-    deleteLetter(turn: number, position: number) {
+    deleteLetterInUI(turn: number, position: number) {
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = "";
     }
     

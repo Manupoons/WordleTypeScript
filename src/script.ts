@@ -1,13 +1,12 @@
 import {Word} from "./Word.js";
 import {Game} from "./Game.js";
 import {LetterChecker} from "./LetterChecker.js";
-import { UIChanger } from "./UIChanger.js";
-import { Letter } from "./Letter.js";
+import {UIChanger} from "./UIChanger.js";
+import {Letter} from "./Letter.js";
 
 const wordsCollection: Word = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
 const pickedWord: string = wordsCollection.getRandomWord();
 console.log(pickedWord);
-
 
 const userInterface: UIChanger = new UIChanger();
 const game: Game = new Game(pickedWord);
