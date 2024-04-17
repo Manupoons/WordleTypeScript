@@ -1,9 +1,9 @@
 import {MAX_WORD_SIZE, MAX_ATTEMPTS} from "./env.js";
 import { Game } from "./Game";
 import { UIChanger } from "./UIChanger";
-import { ILetterCheckStrategy } from "./ILetterCheckStrategy";
+import { ILetterCheck } from "./ILetterCheck.js";
 
-export class WrongLetterChecker implements ILetterCheckStrategy {
+export class WrongLetterChecker implements ILetterCheck {
     check(game: Game, userInterface: UIChanger): void {
         let actualLetter = "";
         let pattern:RegExp;

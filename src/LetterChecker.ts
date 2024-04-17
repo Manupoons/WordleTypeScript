@@ -1,13 +1,13 @@
 import {MAX_WORD_SIZE, MAX_ATTEMPTS} from "./env.js";
 import {Game} from "./Game.js";
-import { ILetterCheckStrategy } from "./ILetterCheckStrategy.js";
+import { ILetterCheck } from "./ILetterCheck.js";
 import {UIChanger} from "./UIChanger.js";
 
 export class LetterChecker{
 
-    private strategy: ILetterCheckStrategy[];
-
-    constructor(strategies: ILetterCheckStrategy[]){
+    private strategy: ILetterCheck[];
+    
+    constructor(strategies: ILetterCheck[]){
         this.strategy = strategies;
     }
 

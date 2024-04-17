@@ -1,9 +1,11 @@
 import {MAX_WORD_SIZE, MAX_ATTEMPTS} from "./env.js";
 import { Game } from "./Game";
 import { UIChanger } from "./UIChanger";
-import { ILetterCheckStrategy } from "./ILetterCheckStrategy";
+import { ILetterCheck } from "./ILetterCheck.js";
 
-export class MisplacedLetterChecker implements ILetterCheckStrategy {
+//checkear primero las verdes y luego las naranjas con dos bucles for
+
+export class MisplacedLetterChecker implements ILetterCheck {
     check(game: Game, userInterface: UIChanger): void {
         let actualLetter: string = "";
         let pattern: RegExp;

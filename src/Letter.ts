@@ -93,7 +93,7 @@ export class Letter{
             }
             this.#userInterface.changeBackgroundKey(code);
         }
-        
+            
         if (this.isEnterKey(code)) {
             this.enterPressed();
         }
