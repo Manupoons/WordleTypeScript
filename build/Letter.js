@@ -73,10 +73,7 @@ export class Letter {
     enterPressed() {
         if (__classPrivateFieldGet(this, _Letter_game, "f").actualWord.length == MAX_WORD_SIZE) {
             __classPrivateFieldGet(this, _Letter_game, "f").checkGameIsOver();
-            //this.#letterChecker.checkLetterStatus();
-            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkMisplacedLetters();
-            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkLettersRight();
-            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkWrongLetters();
+            __classPrivateFieldGet(this, _Letter_letterChecker, "f").checkLetters(__classPrivateFieldGet(this, _Letter_game, "f"), __classPrivateFieldGet(this, _Letter_userInterface, "f"));
             __classPrivateFieldGet(this, _Letter_game, "f").turn = __classPrivateFieldGet(this, _Letter_game, "f").turn + 1;
             this.actualPosition = 0;
             __classPrivateFieldGet(this, _Letter_game, "f").actualWord = "";
