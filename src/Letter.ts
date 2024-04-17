@@ -20,7 +20,7 @@ export class Letter{
         this.#userInterface = userInterface;
         this.#game = game;
     }
-
+    
     get actualPosition(){
         return this.#actualPosition;
     }
@@ -78,10 +78,7 @@ export class Letter{
     enterPressed(): void{
         if (this.#game.actualWord.length == MAX_WORD_SIZE){
             this.#game.checkGameIsOver();
-            //this.#letterChecker.checkLetterStatus();
-            this.#letterChecker.checkMisplacedLetters();
-            this.#letterChecker.checkLettersRight();
-            this.#letterChecker.checkWrongLetters();
+            this.#letterChecker.checkLetters(this.#game, this.#userInterface)
             this.#game.turn = this.#game.turn + 1;
             this.actualPosition = 0;
             this.#game.actualWord = "";
