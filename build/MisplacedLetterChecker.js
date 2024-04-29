@@ -1,32 +1,22 @@
 import { MAX_WORD_SIZE } from "./env.js";
+//checkear primero las verdes y luego las naranjas con dos bucles for
 export class MisplacedLetterChecker {
     check(game, userInterface) {
-        let actualLetter = "";
-        let pattern;
-        let numberOfCoincidencesPickedWord = 0;
-        let numberOfCoincidencesActualWord = 0;
-        let differenceOfCoincidences = 0;
-        let isMisplacedLetter = true;
+        const misplacedLetters = new Set();
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
-            isMisplacedLetter = true;
-            actualLetter = game.actualWord[i];
-            pattern = new RegExp(actualLetter, "g");
-            numberOfCoincidencesPickedWord = (game.pickedWord.match(pattern) || []).length;
-            numberOfCoincidencesActualWord = (game.actualWord.match(pattern) || []).length;
-            differenceOfCoincidences = Math.abs(numberOfCoincidencesActualWord - numberOfCoincidencesPickedWord);
-            if (differenceOfCoincidences == 1) {
-                for (let j = 0; j < MAX_WORD_SIZE; j++) {
-                    if (game.pickedWord[j] == actualLetter) {
-                        isMisplacedLetter = false;
-                        break;
-                    }
+            const guessedLetter = game.pickedWord[i];
+            const actualLetter = game.actualWord[i];
+            if (guessedLetter === actualLetter) {
+                userInterface.changeBackgroundPosition(game.turn, i, "cell-green");
+            }
+            else {
+                if (!misplacedLetters.has(guessedLetter) && game.actualWord.includes(guessedLetter)) {
+                    userInterface.changeBackgroundPosition(game.turn, i, "cell-orange");
+                    misplacedLetters.add(guessedLetter);
                 }
-            }
-            if (differenceOfCoincidences == 0 && game.pickedWord[i] == game.actualWord[i]) {
-                isMisplacedLetter = false;
-            }
-            if (numberOfCoincidencesPickedWord > 0 && isMisplacedLetter) {
-                userInterface.changeBackgroundPosition(game.turn, i, "cell-orange");
+                else {
+                    userInterface.changeBackgroundPosition(game.turn, i, "cell-grey");
+                }
             }
         }
     }

@@ -7,37 +7,22 @@ import { ILetterCheck } from "./ILetterCheck.js";
 
 export class MisplacedLetterChecker implements ILetterCheck {
     check(game: Game, userInterface: UIChanger): void {
-        let actualLetter: string = "";
-        let pattern: RegExp;
-        let numberOfCoincidencesPickedWord: number = 0;
-        let numberOfCoincidencesActualWord: number = 0;
-        let differenceOfCoincidences: number = 0;
-        let isMisplacedLetter: boolean = true;
+        const misplacedLetters = new Set<string>();
 
-        for (let i=0; i<MAX_WORD_SIZE; i++){
-            isMisplacedLetter = true;
-            actualLetter = game.actualWord[i];
-            pattern = new RegExp(actualLetter,"g");
-            numberOfCoincidencesPickedWord = (game.pickedWord.match(pattern)||[]).length;
-            numberOfCoincidencesActualWord = (game.actualWord.match(pattern)||[]).length;
-            differenceOfCoincidences = Math.abs(numberOfCoincidencesActualWord - numberOfCoincidencesPickedWord);
-            
-            if (differenceOfCoincidences==1){
-                for (let j=0; j<MAX_WORD_SIZE; j++){
-                    if(game.pickedWord[j]==actualLetter) {
-                        isMisplacedLetter = false;
-                        break;
-                    }
+        for (let i = 0; i < MAX_WORD_SIZE; i++) {
+            const guessedLetter = game.pickedWord[i];
+            const actualLetter = game.actualWord[i];
+
+            if (guessedLetter === actualLetter) {
+                userInterface.changeBackgroundPosition(game.turn, i, "cell-green");
+            } else {
+                if (!misplacedLetters.has(guessedLetter) && game.actualWord.includes(guessedLetter)) {
+                    userInterface.changeBackgroundPosition(game.turn, i, "cell-orange");
+                    misplacedLetters.add(guessedLetter);
+                }else{
+                    userInterface.changeBackgroundPosition(game.turn, i, "cell-grey");
                 }
             }
-
-            if (differenceOfCoincidences==0 && game.pickedWord[i] == game.actualWord[i]){
-                isMisplacedLetter=false;
-            }
-
-            if (numberOfCoincidencesPickedWord>0 && isMisplacedLetter) {
-                userInterface.changeBackgroundPosition(game.turn, i, "cell-orange");
-            }   
         }
     }
 }

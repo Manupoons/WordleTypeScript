@@ -11,10 +11,10 @@ export class LetterChecker{
         this.strategy = strategies;
     }
 
-    checkLetters(game: Game, uiChanger: UIChanger): void {
+    checkLetters(game: Game, userInterface: UIChanger): void {
         for (let position = 0; position < MAX_WORD_SIZE; position++) {
             this.strategy.forEach(strategy => {
-                strategy.check(game, uiChanger);
+                strategy.check(game, userInterface);
             });
         }
     }
